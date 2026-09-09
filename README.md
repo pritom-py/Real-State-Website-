@@ -6,7 +6,7 @@
 <img src="https://img.shields.io/badge/NextAuth.js-5.x-purple?style=for-the-badge&logo=auth0" />
 <img src="https://img.shields.io/badge/TailwindCSS-4.x-38BDF8?style=for-the-badge&logo=tailwindcss" />
 
-# 🏡 Alexandra Voss — Luxury Real Estate Website
+# Alexandra Voss Luxury Real Estate Website
 
 **A full-stack, production-ready real estate brokerage website built with Next.js 16, featuring a complete Admin Panel, property listings, lead management, and a stunning public-facing frontend.**
 
