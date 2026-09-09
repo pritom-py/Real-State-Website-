@@ -1,26 +1,672 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
 @import "tailwindcss";
 
+/* ─── Design Tokens ─────────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ivory: #F8F5F0;
+  --warm-white: #FDFCFA;
+  --charcoal: #1C1C1C;
+  --warm-gray: #6B6560;
+  --mid-gray: #9B948E;
+  --light-gray: #E8E3DC;
+  --gold: #B8975A;
+  --gold-light: #D4B483;
+  --gold-dark: #8B7040;
+  --black: #0A0A0A;
+  --rule: rgba(28, 28, 28, 0.12);
+
+  --font-serif: 'Cormorant Garamond', 'Georgia', serif;
+  --font-sans: 'Inter', 'system-ui', sans-serif;
+
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Reset & Base ──────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--ivory);
+  color: var(--charcoal);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 300;
+  margin: 0;
 }
+
+/* ─── Typography ────────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--charcoal);
+  margin: 0;
+}
+
+h1 { font-size: clamp(2.5rem, 6vw, 5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3.5rem); }
+h3 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+h4 { font-size: clamp(1.25rem, 2vw, 1.75rem); }
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ─── Custom Utilities ──────────────────────────────────────────────────────── */
+.font-serif { font-family: var(--font-serif); }
+.font-sans  { font-family: var(--font-sans);  }
+
+.text-gold       { color: var(--gold); }
+.text-warm-gray  { color: var(--warm-gray); }
+.text-charcoal   { color: var(--charcoal); }
+.bg-ivory        { background-color: var(--ivory); }
+.bg-warm-white   { background-color: var(--warm-white); }
+.border-rule     { border-color: var(--rule); }
+
+/* Eyebrow label */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* Section rule */
+.section-rule {
+  width: 40px;
+  height: 1px;
+  background-color: var(--gold);
+  margin: 0 auto 1.5rem;
+}
+
+.section-rule-left {
+  width: 40px;
+  height: 1px;
+  background-color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+/* Thin rule dividers */
+.rule-h {
+  height: 1px;
+  background-color: var(--rule);
+  border: none;
+}
+
+.rule-v {
+  width: 1px;
+  background-color: var(--rule);
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: var(--charcoal);
+  color: var(--ivory);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid var(--charcoal);
+  cursor: pointer;
+  transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+}
+
+.btn-primary:hover {
+  background-color: transparent;
+  color: var(--charcoal);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: transparent;
+  color: var(--charcoal);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid var(--charcoal);
+  cursor: pointer;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.btn-outline:hover {
+  background-color: var(--charcoal);
+  color: var(--ivory);
+}
+
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: var(--gold);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid var(--gold);
+  cursor: pointer;
+  transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+}
+
+.btn-gold:hover {
+  background-color: var(--gold-dark);
+  border-color: var(--gold-dark);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: transparent;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: border-color var(--transition-base), background-color var(--transition-base);
+}
+
+.btn-ghost:hover {
+  border-color: rgba(255,255,255,1);
+  background-color: rgba(255,255,255,0.08);
+}
+
+.btn-sm {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.625rem;
+}
+
+/* ─── Form Elements ──────────────────────────────────────────────────────────── */
+.field-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  margin-bottom: 0.5rem;
+}
+
+.field-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background-color: transparent;
+  border: 1px solid var(--light-gray);
+  color: var(--charcoal);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 300;
+  outline: none;
+  transition: border-color var(--transition-base);
+  appearance: none;
+}
+
+.field-input::placeholder {
+  color: var(--mid-gray);
+}
+
+.field-input:focus {
+  border-color: var(--charcoal);
+}
+
+.field-input.error {
+  border-color: #c0392b;
+}
+
+.field-error {
+  font-size: 0.75rem;
+  color: #c0392b;
+  margin-top: 0.25rem;
+}
+
+/* ─── Cards ──────────────────────────────────────────────────────────────────── */
+.property-card {
+  position: relative;
+  cursor: pointer;
+  group: true;
+}
+
+.property-card-img {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--light-gray);
+}
+
+.property-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.property-card:hover .property-card-img img {
+  transform: scale(1.04);
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideRight {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* ─── Prefers Reduced Motion ────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ivory);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--light-gray);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mid-gray);
+}
+
+/* ─── Selection ──────────────────────────────────────────────────────────────── */
+::selection {
+  background-color: var(--gold);
+  color: #fff;
+}
+
+/* ─── Tiptap / Rich Text ─────────────────────────────────────────────────────── */
+.prose-luxury {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--charcoal);
+}
+
+.prose-luxury h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 400;
+  margin: 2.5rem 0 1rem;
+  color: var(--charcoal);
+}
+
+.prose-luxury h3 {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  font-weight: 400;
+  margin: 2rem 0 0.75rem;
+}
+
+.prose-luxury p {
+  margin-bottom: 1.5rem;
+  font-size: 1.0625rem;
+}
+
+.prose-luxury ul, .prose-luxury ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose-luxury li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-luxury blockquote {
+  border-left: 2px solid var(--gold);
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--warm-gray);
+}
+
+/* ─── Admin Styles ───────────────────────────────────────────────────────────── */
+.admin-sidebar {
+  background-color: var(--charcoal);
+  color: var(--ivory);
+}
+
+.admin-sidebar a {
+  color: rgba(248, 245, 240, 0.65);
+  transition: color var(--transition-base);
+}
+
+.admin-sidebar a:hover,
+.admin-sidebar a.active {
+  color: var(--ivory);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.admin-table th {
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  color: var(--warm-gray);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.admin-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--light-gray);
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ─── Lightbox ───────────────────────────────────────────────────────────────── */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Status Badges ──────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 0.2em 0.75em;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ─── Section Spacing ────────────────────────────────────────────────────────── */
+.section-padding {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+.container-wide {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.container-narrow {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+@media (max-width: 640px) {
+  .container-wide,
+  .container,
+  .container-narrow {
+    padding: 0 1.25rem;
+  }
+}
+
+/* ─── Admin Table ────────────────────────────────────────────────────────────── */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+}
+
+.admin-table th {
+  padding: 0.875rem 1rem;
+  text-align: left;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #9B948E;
+  background-color: #F9F8F6;
+  border-bottom: 1px solid #E8E3DC;
+}
+
+.admin-table td {
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: var(--charcoal);
+  border-bottom: 1px solid #E8E3DC;
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tr:hover td {
+  background-color: #FDFCFA;
+}
+
+/* ─── Form Fields ────────────────────────────────────────────────────────────── */
+.field-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  margin-bottom: 0.4rem;
+}
+
+.field-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--light-gray);
+  background-color: var(--warm-white);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: var(--charcoal);
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+
+.field-input:focus {
+  border-color: var(--charcoal);
+}
+
+.field-input.error {
+  border-color: #e53e3e;
+}
+
+.field-error {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: #e53e3e;
+  margin: 0.3rem 0 0;
+}
+
+/* ─── Badge ────────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+}
+
+/* ─── Button Sizes ─────────────────────────────────────────────────────────── */
+.btn-sm {
+  padding: 0.625rem 1.25rem !important;
+  font-size: 0.625rem !important;
+}
+
+/* ─── Lightbox ─────────────────────────────────────────────────────────────── */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+/* ─── Prose Luxury ─────────────────────────────────────────────────────────── */
+.prose-luxury {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 300;
+  color: var(--charcoal);
+  line-height: 1.9;
+}
+
+.prose-luxury h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 400;
+  color: var(--charcoal);
+  margin: 2.5rem 0 1rem;
+}
+
+.prose-luxury h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  font-weight: 400;
+  color: var(--charcoal);
+  margin: 2rem 0 0.75rem;
+}
+
+.prose-luxury p {
+  margin-bottom: 1.5rem;
+}
+
+.prose-luxury ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose-luxury li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-luxury blockquote {
+  border-left: 2px solid var(--gold);
+  padding-left: 1.5rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--warm-gray);
+  margin: 2rem 0;
+}
+
+.prose-luxury a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose-luxury strong {
+  font-weight: 600;
+}
+
+/* ─── Hover Utilities (Server Component safe) ──────────────────────────────── */
+.hover-gold:hover { color: var(--gold) !important; }
+.hover-ivory:hover { color: var(--ivory) !important; }
+.hover-charcoal:hover { color: var(--charcoal) !important; }
+.hover-scale:hover { transform: scale(1.03); }
+.hover-invert:hover { background-color: var(--charcoal) !important; color: var(--ivory) !important; }
+.media-link { background-color: rgba(248,245,240,0.03); }
+.media-link:hover { background-color: rgba(184,151,90,0.08) !important; }
+.link-gold { color: var(--charcoal); transition: color 0.3s; }
+.link-gold:hover { color: var(--gold); }
+.link-ivory { color: rgba(248,245,240,0.6); transition: color 0.3s; text-decoration: none; }
+.link-ivory:hover { color: var(--ivory); }
+.admin-card { transition: border-color 0.2s; border: 1px solid #E8E3DC; }
+.admin-card:hover { border-color: var(--gold); }
+.admin-stat-card:hover { border-color: var(--hover-color, var(--gold)) !important; }
