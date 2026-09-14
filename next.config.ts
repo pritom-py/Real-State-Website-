@@ -19,10 +19,10 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ['localhost:3000'],
+      allowedOrigins: ['localhost:3000', '10.2.0.2:3000', '10.10.12.213:3000'],
     },
   },
-  allowedDevOrigins: ['10.10.12.213'],
+  allowedDevOrigins: ['10.10.12.213', '10.2.0.2'],
 }
 
 export default nextConfig

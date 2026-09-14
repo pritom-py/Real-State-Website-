@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import * as mockData from './mock-data'
 
 // ─── MOCK PRISMA CLIENT ────────────────────────────────────────────────────────
-// Bypassing real database connection for the demo to run flawlessly without Supabase credentials.
+// Used only as fallback when no DATABASE_URL is configured (pure demo mode).
 const createMockModel = (mockArray: any[], singleMock: any) => ({
   findMany: async (args?: any) => {
     if (!mockArray) return []
@@ -73,4 +73,36 @@ const mockPrismaClient = {
   $transaction: async (queries: any[]) => Promise.all(queries.map(q => typeof q === 'function' ? q(mockPrismaClient) : q)),
 }
 
-export const prisma = mockPrismaClient as unknown as PrismaClient
+// ─── REAL PRISMA CLIENT ────────────────────────────────────────────────────────
+const dbUrl = process.env.DATABASE_URL
+
+const isRealDatabase =
+  !!dbUrl &&
+  !dbUrl.includes('[PASSWORD]') &&
+  !dbUrl.includes('[PROJECT-REF]')
+
+// Singleton stored on globalThis to survive hot reloads in dev
+const globalForPrisma = globalThis as unknown as { _prismaClient?: PrismaClient }
+
+function getOrCreatePrismaClient(): PrismaClient {
+  if (globalForPrisma._prismaClient) {
+    return globalForPrisma._prismaClient
+  }
+
+  const client = new PrismaClient({
+    datasources: { db: { url: dbUrl } },
+    log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
+  })
+
+  // Pre-warm the connection so first page load doesn't cold-start timeout
+  client.$connect().catch((err) => {
+    console.warn('[Prisma] Initial connection warmup failed (will retry on first query):', err?.message)
+  })
+
+  globalForPrisma._prismaClient = client
+  return client
+}
+
+export const prisma: PrismaClient = isRealDatabase
+  ? getOrCreatePrismaClient()
+  : (mockPrismaClient as unknown as PrismaClient)
