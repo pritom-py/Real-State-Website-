@@ -3,12 +3,12 @@
 import { signIn } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { loginSchema, type LoginValues } from '@/lib/validations'
 import { Eye, EyeOff, Lock } from 'lucide-react'
 
-export default function AdminLoginPage() {
+function AdminLoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -110,5 +110,13 @@ export default function AdminLoginPage() {
         }
       `}</style>
     </div>
+  )
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', backgroundColor: 'var(--ivory)' }} />}>
+      <AdminLoginForm />
+    </Suspense>
   )
 }
