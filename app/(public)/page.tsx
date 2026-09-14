@@ -1,5 +1,13 @@
 import type { Metadata } from 'next'
-import { prisma } from '@/lib/prisma'
+import {
+  getCachedBrokerProfile,
+  getCachedFeaturedProperties,
+  getCachedSoldProperties,
+  getCachedFeaturedNeighborhoods,
+  getCachedFeaturedTestimonials,
+  getCachedRecentInsights,
+  getCachedSignatureProperty,
+} from '@/lib/cache'
 import { Hero } from '@/components/home/Hero'
 import { StatsSection } from '@/components/home/StatsSection'
 import { FeaturedProperties } from '@/components/home/FeaturedProperties'
@@ -26,39 +34,13 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const [broker, featuredProperties, soldProperties, neighborhoods, testimonials, insights, signatureProperty] =
     await Promise.all([
-      prisma.brokerProfile.findFirst(),
-      prisma.property.findMany({
-        where: { featured: true, status: { not: 'SOLD' } },
-        include: { images: { orderBy: { order: 'asc' } } },
-        orderBy: { listingDate: 'desc' },
-        take: 3,
-      }),
-      prisma.property.findMany({
-        where: { status: 'SOLD' },
-        include: { images: { orderBy: { order: 'asc' } } },
-        orderBy: { soldDate: 'desc' },
-        take: 4,
-      }),
-      prisma.neighborhood.findMany({
-        where: { featured: true },
-        orderBy: { name: 'asc' },
-        take: 3,
-      }),
-      prisma.testimonial.findMany({
-        where: { featured: true },
-        orderBy: { createdAt: 'desc' },
-        take: 6,
-      }),
-      prisma.insight.findMany({
-        where: { status: 'PUBLISHED' },
-        include: { category: true },
-        orderBy: { publishedAt: 'desc' },
-        take: 3,
-      }),
-      prisma.property.findFirst({
-        where: { signature: true },
-        include: { images: { orderBy: { order: 'asc' } } },
-      }),
+      getCachedBrokerProfile(),
+      getCachedFeaturedProperties(),
+      getCachedSoldProperties(),
+      getCachedFeaturedNeighborhoods(),
+      getCachedFeaturedTestimonials(),
+      getCachedRecentInsights(),
+      getCachedSignatureProperty(),
     ])
 
 

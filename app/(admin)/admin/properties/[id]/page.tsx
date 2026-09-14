@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { redirect, notFound } from 'next/navigation'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { slugify } from '@/lib/utils'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -60,6 +60,7 @@ async function saveProperty(id: string | undefined, formData: FormData) {
     ))
   }
 
+  revalidateTag('properties')
   revalidatePath('/properties')
   revalidatePath('/admin/properties')
   redirect('/admin/properties')
@@ -68,6 +69,7 @@ async function saveProperty(id: string | undefined, formData: FormData) {
 async function deleteProperty(id: string, _formData: FormData) {
   'use server'
   await prisma.property.delete({ where: { id } })
+  revalidateTag('properties')
   revalidatePath('/properties')
   revalidatePath('/admin/properties')
   redirect('/admin/properties')

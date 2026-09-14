@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import { AdminDeleteButton } from '@/components/admin/AdminDeleteButton'
@@ -21,6 +21,7 @@ async function saveTestimonial(formData: FormData) {
   } else {
     await prisma.testimonial.create({ data })
   }
+  revalidateTag('testimonials')
   revalidatePath('/testimonials')
   revalidatePath('/admin/testimonials')
   redirect('/admin/testimonials')

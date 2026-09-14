@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { prisma } from '@/lib/prisma'
+import { getCachedAllTestimonials, getCachedMediaMentions } from '@/lib/cache'
 import { Star, ExternalLink } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 
@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 
 export default async function TestimonialsPage() {
   const [testimonials, media] = await Promise.all([
-    prisma.testimonial.findMany({ orderBy: [{ featured: 'desc' }, { createdAt: 'desc' }] }),
-    prisma.mediaMention.findMany({ orderBy: { date: 'desc' } }),
+    getCachedAllTestimonials(),
+    getCachedMediaMentions(),
   ])
 
   return (
